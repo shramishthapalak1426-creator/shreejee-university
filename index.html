@@ -372,33 +372,33 @@
   </footer>
 
   <script>
-    // Section switching
-    const navLinks = document.querySelectorAll('.nav-link, .btn-primary[data-section], .btn-outline[data-section], .card-cta[data-section], .btn-apply-small');
-    const sections = document.querySelectorAll('.section');
+  // Buttons that should scroll to a section
+  const scrollButtons = document.querySelectorAll('[data-section]');
 
-    navLinks.forEach(link => {
-      link.addEventListener('click', e => {
-        const target = link.getAttribute('data-section');
-        if (!target) return;
-        e.preventDefault();
+  scrollButtons.forEach(btn => {
+    btn.addEventListener('click', e => {
+      const targetId = btn.getAttribute('data-section');
+      if (!targetId) return;
 
-        sections.forEach(sec => sec.classList.remove('active'));
-        document.getElementById(target).classList.add('active');
+      // let links with href="#id" work normally (no preventDefault)
+      if (btn.tagName.toLowerCase() === 'a') return;
 
-        document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
-        const headerNav = document.querySelector('.primary-nav a[data-section="' + target + '"]');
-        if (headerNav) headerNav.classList.add('active');
-
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-    });
-
-    // Simple form feedback
-    document.querySelector('.admission-form').addEventListener('submit', e => {
       e.preventDefault();
-      alert('Thank you! Your application has been recorded.');
-      e.target.reset();
+      const section = document.getElementById(targetId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
     });
-  </script>
+  });
+
+  // Simple form feedback
+  document.querySelector('.admission-form').addEventListener('submit', e => {
+    e.preventDefault();
+    alert('Thank you! Your application has been recorded.');
+    e.target.reset();
+  });
+</script>
+
+
 </body>
 </html>
